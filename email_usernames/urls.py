@@ -5,10 +5,10 @@ urlpatterns = patterns('email_usernames.views',
 )
 
 try:
-    import registration
+    from registration.views import register
     from email_usernames.forms import EmailRegistrationForm
-    urlpatterns += patterns('registration.views', 
-        url(r'^register/$', 'register', { 'form_class':EmailRegistrationForm }, name="email-register"),
+    urlpatterns += patterns('', 
+        url(r'^register/$', register, { 'form_class':EmailRegistrationForm }, name="email-register"),
     )
 except ImportError:
     pass
