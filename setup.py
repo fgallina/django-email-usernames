@@ -10,7 +10,7 @@ setup(
     author_email='hwaara@gmail.com',
     url='http://github.com/fgallina/django-email-usernames',
     packages=['email_usernames'],
-    package_dir={'email_usernames': 'email_usernames'}
+    package_dir={'email_usernames': 'email_usernames'},
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
