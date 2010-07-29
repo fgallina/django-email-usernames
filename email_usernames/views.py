@@ -7,8 +7,6 @@ from django.core.urlresolvers import reverse
 
 from forms import EmailLoginForm
 
-from utils import MultiCookie
-
 from account.models import UserProfile
 
 def email_login(request, template="registration/login.html", extra_context=None):
@@ -33,19 +31,6 @@ def email_login(request, template="registration/login.html", extra_context=None)
                 email_confirmed = request.user.get_profile().email_confirmed
             except UserProfile.DoesNotExist:
                 email_confirmed = False
-            sid_cookie = MultiCookie(values={'user_id': request.user.id,
-                                             'session_id': request.COOKIES[settings.SESSION_COOKIE_NAME],
-                                             'exp_time': '',
-                                             'login_time': request.user.last_login,
-                                             'email_verified': email_confirmed,
-                                             })
-            pmt_cookie = MultiCookie(values={'test':'test', 'test1':'test1'})
-            pref_cookie = MultiCookie(values={'test2':'test2', 'test3':'test3'})
-            response.set_cookie('SID', value=sid_cookie, max_age=settings.SID_DURATION or None, \
-                                secure=settings.SESSION_COOKIE_SECURE or False)
-            response.set_cookie('PMT', value=pmt_cookie, max_age=settings.PMT_DURATION or None, \
-                                secure=settings.SESSION_COOKIE_SECURE or False)
-            response.set_cookie('PREF', value=pref_cookie, expires=None)
             return response
     else:
         login_form = EmailLoginForm()
