@@ -9,7 +9,8 @@ from forms import EmailLoginForm
 
 from account.models import UserProfile
 
-def email_login(request, template="registration/login.html", extra_context=None):
+def email_login(request, template="registration/login.html", extra_context=None,
+                form=EmailLoginForm):
     """A generic view that you can use instead of the default auth.login view, for email logins.
        On GET:
             will render the specified template with and pass the an empty EmailLoginForm as login_form
@@ -20,7 +21,7 @@ def email_login(request, template="registration/login.html", extra_context=None)
             parameter, if specified."""
 
     if request.method == 'POST':
-        login_form = EmailLoginForm(data=request.POST)
+        login_form = form(data=request.POST)
         if login_form.is_valid():
             # The user has been authenticated, so log in and redirect
             login(request, login_form.user)
@@ -33,7 +34,7 @@ def email_login(request, template="registration/login.html", extra_context=None)
                 email_confirmed = False
             return response
     else:
-        login_form = EmailLoginForm()
+        login_form = form()
 
     context = { 'login_form':login_form, 'next':request.GET.get('next') }
     if extra_context is None: extra_context = {}
